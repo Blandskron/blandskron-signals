@@ -1,0 +1,8 @@
+from django.db import migrations, models
+import django.db.models.deletion
+
+
+class Migration(migrations.Migration):
+    initial = True
+    dependencies = [("sites", "0001_initial")]
+    operations = [migrations.CreateModel(name="Subscriber", fields=[("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")), ("email", models.EmailField(max_length=254)), ("state", models.CharField(choices=[("pending", "Pending"), ("active", "Active"), ("unsubscribed", "Unsubscribed"), ("blocked", "Blocked"), ("bounced", "Bounced")], default="pending", max_length=20)), ("all_articles", models.BooleanField(default=True)), ("weekly_digest", models.BooleanField(default=True)), ("artificial_intelligence", models.BooleanField(default=True)), ("development", models.BooleanField(default=True)), ("automation", models.BooleanField(default=True)), ("business_technology", models.BooleanField(default=True)), ("featured_analysis_only", models.BooleanField(default=False)), ("confirmation_token_hash", models.CharField(blank=True, max_length=64)), ("token_expires_at", models.DateTimeField(blank=True, null=True)), ("confirmed_at", models.DateTimeField(blank=True, null=True)), ("unsubscribed_at", models.DateTimeField(blank=True, null=True)), ("created_at", models.DateTimeField(auto_now_add=True)), ("updated_at", models.DateTimeField(auto_now=True)), ("site", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="subscribers", to="sites.site"))], options={"ordering": ["-created_at"], "constraints": [models.UniqueConstraint(fields=("site", "email"), name="unique_subscriber_per_site")]})]

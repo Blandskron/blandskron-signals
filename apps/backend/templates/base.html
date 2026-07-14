@@ -1,0 +1,15 @@
+{% load static %}<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Blandskron Signals{% endblock %}</title>
+  <meta name="description" content="Observatorio editorial sobre tecnología, IA, software y automatización.">
+  <meta property="og:site_name" content="Blandskron Signals">
+  <link rel="alternate" type="application/rss+xml" title="Blandskron Signals RSS" href="/rss.xml">
+  <link rel="stylesheet" href="{% static 'css/site.css' %}">
+</head>
+<body>
+  <header class="site-header"><a class="brand" href="{% url 'home' %}"><span class="brand-mark">B</span><span>Blandskron <em>Signals</em></span></a><nav><a href="{% url 'article-list' %}">Señales</a><a href="{% url 'trend-list' %}">Radar</a><a href="{% url 'category-list' %}">Temas</a><a href="/rss.xml">RSS</a></nav></header>
+  <main>{% block content %}{% endblock %}</main>
+  <footer class="site-footer"><div><strong>Blandskron Signals</strong><p>Una publicación tecnológica viva, operada con criterio editorial y fuentes verificables.</p></div><div><a href="{% url 'subscribe' %}">Newsletter</a><a href="{% url 'subscriber-unsubscribe' %}">Cancelar suscripción</a><a href="/llms.txt">Para agentes</a><a href="/admin/">Administración</a></div></footer>
+</body></html>

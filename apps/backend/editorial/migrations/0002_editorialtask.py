@@ -1,0 +1,8 @@
+from django.conf import settings
+from django.db import migrations, models
+import django.db.models.deletion
+
+
+class Migration(migrations.Migration):
+    dependencies = [("editorial", "0001_initial"), ("articles", "0001_initial"), ("sites", "0001_initial"), migrations.swappable_dependency(settings.AUTH_USER_MODEL)]
+    operations = [migrations.CreateModel(name="EditorialTask", fields=[("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")), ("task_type", models.CharField(choices=[("research", "Research"), ("draft", "Draft"), ("review", "Review"), ("update_article", "Update Article"), ("newsletter", "Newsletter"), ("source_check", "Source Check")], max_length=24)), ("title", models.CharField(max_length=200)), ("instructions", models.TextField(blank=True)), ("state", models.CharField(choices=[("pending", "Pending"), ("in_progress", "In Progress"), ("blocked", "Blocked"), ("completed", "Completed"), ("cancelled", "Cancelled")], default="pending", max_length=20)), ("due_at", models.DateTimeField(blank=True, null=True)), ("completed_at", models.DateTimeField(blank=True, null=True)), ("created_at", models.DateTimeField(auto_now_add=True)), ("updated_at", models.DateTimeField(auto_now=True)), ("article", models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="editorial_tasks", to="articles.article")), ("assigned_to", models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="assigned_editorial_tasks", to=settings.AUTH_USER_MODEL)), ("site", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="editorial_tasks", to="sites.site"))], options={"ordering": ["state", "due_at", "-created_at"]})]

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Blandskron Signals Article Draft",
+  "type": "object",
+  "required": ["site", "category", "title", "slug", "excerpt", "content_markdown", "content_type", "meta_title", "meta_description"],
+  "properties": {
+    "site": {"type": "integer"},
+    "category": {"type": "integer"},
+    "title": {"type": "string", "minLength": 10, "maxLength": 240},
+    "slug": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "excerpt": {"type": "string", "minLength": 40},
+    "content_markdown": {"type": "string", "minLength": 200},
+    "content_type": {"enum": ["signal", "analysis", "field_note", "radar", "living_article", "briefing"]},
+    "meta_title": {"type": "string", "maxLength": 240},
+    "meta_description": {"type": "string", "minLength": 50, "maxLength": 320},
+    "source_ids": {"type": "array", "items": {"type": "integer"}}
+  }
+}

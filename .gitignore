@@ -149,6 +149,11 @@ activemq-data/
 
 # Environments
 .env
+.env.*
+!.env.example
+!.env.production.example
+!.env.cpanel.example
+!.env.local.example
 .envrc
 .venv
 env/

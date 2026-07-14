@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-blandskron_signals}
+      POSTGRES_USER: ${POSTGRES_USER:-blandskron}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-blandskron-local}
+    ports: ["5432:5432"]
+    volumes: ["postgres_data:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-blandskron} -d ${POSTGRES_DB:-blandskron_signals}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  backend:
+    build: ./apps/backend
+    env_file: .env
+    environment: { POSTGRES_HOST: postgres }
+    ports: ["8000:8000"]
+    depends_on:
+      postgres: { condition: service_healthy }
+  mcp:
+    build: ./apps/mcp-server
+    environment:
+      DJANGO_INTERNAL_URL: http://backend:8000
+      MCP_INTERNAL_API_TOKEN: ${MCP_INTERNAL_API_TOKEN:-change-me}
+      MCP_ALLOWED_HOSTS: ${MCP_ALLOWED_HOSTS:-localhost:8100,127.0.0.1:8100,localhost,127.0.0.1}
+      MCP_ALLOWED_ORIGINS: ${MCP_ALLOWED_ORIGINS:-http://localhost:8000}
+    ports: ["8100:8100"]
+    depends_on: [backend]
+  mailpit:
+    image: axllent/mailpit:latest
+    ports: ["8025:8025", "1025:1025"]
+volumes:
+  postgres_data:
